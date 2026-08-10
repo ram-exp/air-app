@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./air.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0b0f" />
+    <title>AIR — Personal Productivity OS</title>
+    <meta name="description" content="A calm, premium home for your tasks, projects, notes, habits, and goals." />
+
+    <!--
+      Defense-in-depth against XSS: even if a future bug slips an <script>
+      or inline handler into the DOM, the browser refuses to run it because
+      script-src only trusts this origin's own bundled files. This is a
+      best-effort CSP set via <meta> (a real deployment should also send it
+      as an HTTP response header, plus X-Frame-Options / X-Content-Type-Options,
+      from whatever host serves the built files — a <meta> tag can't set those).
+    -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: blob: https:;
+      media-src 'self' blob:;
+      connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.groq.com https://openrouter.ai https://api.cerebras.ai https://api.together.xyz https://generativelanguage.googleapis.com https://api.elevenlabs.io https://api.openai.com https://texttospeech.googleapis.com https://client.camb.ai https://api.mistral.ai https://integrate.api.nvidia.com https://api.sambanova.ai https://router.huggingface.co https://models.inference.ai.azure.com https://api.siliconflow.cn http://localhost:* http://127.0.0.1:*;
+      frame-src 'self' https://accounts.google.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    ">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <script type="module" crossorigin src="/air-app/assets/index-DsvC6_62.js"></script>
+    <link rel="stylesheet" crossorigin href="/air-app/assets/index-VtBKR4Ip.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
