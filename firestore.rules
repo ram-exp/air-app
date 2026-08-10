@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// Deploy this in Firebase Console → Firestore Database → Rules (or via
+// `firebase deploy --only firestore:rules` with the Firebase CLI).
+//
+// Data model: every document the app writes lives under users/{uid}/{collection}/{docId}
+// (see src/lib/firestoreData.js). These rules make sure a signed-in user can
+// only ever read or write documents inside their own uid's subtree — nobody
+// else's data, even if they know another user's uid or forge a request with
+// this project's API key (the API key alone identifies the project, it does
+// NOT grant access — these rules are what actually gate access).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{uid}/{collection}/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

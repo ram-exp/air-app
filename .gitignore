@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Env files — never commit real Supabase keys/config
+.env
+.env.local
+.env.*.local
+
+# Editor/OS cruft
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.log
+npm-debug.log*
+
+# gh-pages deploy cache
+.cache/
