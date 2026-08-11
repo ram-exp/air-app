@@ -11,26 +11,38 @@
     <!--
       Defense-in-depth against XSS: even if a future bug slips an <script>
       or inline handler into the DOM, the browser refuses to run it because
-      script-src only trusts this origin's own bundled files. This is a
-      best-effort CSP set via <meta> (a real deployment should also send it
+      script-src only trusts this origin's own bundled files (plus the
+      specific external hosts listed below, needed for embeds/SDKs). This is
+      a best-effort CSP set via <meta> (a real deployment should also send it
       as an HTTP response header, plus X-Frame-Options / X-Content-Type-Options,
       from whatever host serves the built files — a <meta> tag can't set those).
+
+      - script-src / frame-src include https://www.youtube.com: the music
+        feature loads YouTube's IFrame Player API script and embeds a
+        (hidden) YouTube player iframe — both are blocked without this.
+      - connect-src ends in a bare `https:` (allow any HTTPS endpoint) as a
+        precaution on top of the explicit allowlist above, in case some
+        browser API needs a network destination we haven't enumerated.
+        (Checked via Chrome DevTools' Issues panel: the browser's built-in
+        SpeechRecognition doesn't actually trigger a CSP violation here, so
+        connect-src was never the cause of wake-word issues — this is just
+        cheap insurance, not a fix for anything specific.)
     -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
-      script-src 'self';
+      script-src 'self' https://www.youtube.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: blob: https:;
       media-src 'self' blob:;
-      connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.groq.com https://openrouter.ai https://api.cerebras.ai https://api.together.xyz https://generativelanguage.googleapis.com https://api.elevenlabs.io https://api.openai.com https://texttospeech.googleapis.com https://client.camb.ai https://api.mistral.ai https://integrate.api.nvidia.com https://api.sambanova.ai https://router.huggingface.co https://models.inference.ai.azure.com https://api.siliconflow.cn http://localhost:* http://127.0.0.1:*;
-      frame-src 'self' https://accounts.google.com;
+      connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.groq.com https://openrouter.ai https://api.cerebras.ai https://api.together.xyz https://generativelanguage.googleapis.com https://api.elevenlabs.io https://api.openai.com https://texttospeech.googleapis.com https://client.camb.ai https://api.mistral.ai https://integrate.api.nvidia.com https://api.sambanova.ai https://router.huggingface.co https://models.inference.ai.azure.com https://api.siliconflow.cn https://www.googleapis.com https: http://localhost:* http://127.0.0.1:*;
+      frame-src 'self' https://accounts.google.com https://www.youtube.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <script type="module" crossorigin src="/air-app/assets/index-BLN41SEa.js"></script>
+    <script type="module" crossorigin src="/air-app/assets/index-Dd6swxsM.js"></script>
     <link rel="stylesheet" crossorigin href="/air-app/assets/index-DCWDiCvI.css">
   </head>
   <body>
